@@ -3,21 +3,30 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 )
 
 func main() {
 
-	// To run any system commands. EX: Cloud Foundry CLI commands: `CF login`
-	cmd := exec.Command("cmd", "arg1")
+	executeUnixCmd("ls", "-l")
 
-	// Sets standard output to cmd.stdout writer
+}
+
+func executeUnixCmd(c string, a ...string) {
+	cmd := exec.Command(c, a...)
 	cmd.Stdout = os.Stdout
-
-	// Sets standard input to cmd.stdin reader
+	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
-
-	cmd.Run()
-
+	err := cmd.Run()
+	if err != nil {
+		checkError(err)
+	}
+}
+func checkError(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Fatal error: %s\n", err.Error())
+		panic(err)
+	}
 }
