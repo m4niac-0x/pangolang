@@ -1,6 +1,5 @@
 module github.com/m4niac-0x/pangolang/v3
 
-go 1.17
 
 require (
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
@@ -16,3 +15,5 @@ require (
 	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22 // indirect
 	golang.org/x/term v0.0.0-20210615171337-6886f2dfbf5b // indirect
 )
+
+go 1.17
