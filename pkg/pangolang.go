@@ -23,8 +23,8 @@ func CheckError(err error) {
 	}
 }
 
-func ExecuteUnixCmd(c string, a ...string) {
-	cmd := exec.Command(c, a...)
+func ExecuteUnixCmd(c string, arg ...string) {
+	cmd := exec.Command(c, arg...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
@@ -42,7 +42,7 @@ func ProgressBarbasic() {
 	}
 }
 
-func ProgressBarCustom() {
+func ProgressBarCustom(msg string) {
 	doneCh := make(chan struct{})
 
 	bar := progressbar.NewOptions(1000,
@@ -50,7 +50,7 @@ func ProgressBarCustom() {
 		progressbar.OptionEnableColorCodes(true),
 		progressbar.OptionShowBytes(true),
 		progressbar.OptionSetWidth(15),
-		progressbar.OptionSetDescription("[cyan][1/3][reset] Writing moshable file..."),
+		progressbar.OptionSetDescription("[cyan][1/3][reset]"+msg),
 		progressbar.OptionSetTheme(progressbar.Theme{
 			Saucer:        "[green]=[reset]",
 			SaucerHead:    "[green]>[reset]",
@@ -109,14 +109,12 @@ func ProgressBarDownloadUnknown(url string) {
 	io.Copy(io.MultiWriter(f, bar), resp.Body)
 }
 
-func GetUserInput(r string) string {
-	request := r
+func GetUserInput(req string) string {
 	var a string
-	fmt.Printf("%s ", request)
+	fmt.Printf("%s ", req)
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		a := scanner.Text()
-		// fmt.Println(r)
 		if len(a) < 1 {
 			a = "null"
 			return a
@@ -168,15 +166,15 @@ func DirIsEmpty(d string) (bool, error) {
 	return false, err
 }
 
-func TcpClient() {
+func TcpClient(proto string, ip string, data string) {
 
-	tcpAddr, err := net.ResolveTCPAddr("tcp4", "127.0.0.1:8000")
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", ip)
 	CheckError(err)
 
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	conn, err := net.DialTCP(proto, nil, tcpAddr)
 	CheckError(err)
 
-	_, err = conn.Write([]byte("HEAD / HTTP/1.0\r\n\r\n"))
+	_, err = conn.Write([]byte(data))
 	CheckError(err)
 
 	result, err := ioutil.ReadAll(conn)
