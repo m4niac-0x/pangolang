@@ -1,4 +1,4 @@
-module pangolang
+module github.com/m4niac-0x/pangolang
 
 go 1.17
 
