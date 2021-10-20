@@ -1,9 +1,6 @@
-module github.com/m4niac-0x/pangolang
-<<<<<<< HEAD
-=======
+module pangolang
 
 go 1.17
->>>>>>> 978c1a5415f1b19197f7aae5565de26bfcba6ad8
 
 require (
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
