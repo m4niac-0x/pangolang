@@ -166,7 +166,7 @@ func DirIsEmpty(d string) (bool, error) {
 	return false, err
 }
 
-func TcpClient(proto string, ip string, data string) {
+func Tcp4Client(proto string, ip string, data string) {
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", ip)
 	CheckError(err)
