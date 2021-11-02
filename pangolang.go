@@ -2,9 +2,11 @@ package pangolang
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -125,20 +127,6 @@ func GetUserInput(req string) string {
 	return a
 }
 
-///////////
-// 	dir := "/path/to/dir"
-//
-// 	if !dirExist(dir) {
-// 		fmt.Println("Directory doesn't exist")
-// 	}
-// 	e, err := dirIsEmpty(dir)
-// 	checkError(err)
-// 	if !e {
-// 		fmt.Println("Directory insn't empty")
-// 	}
-// }
-//////////
-
 func DirExist(d string) bool {
 	_, err := os.Stat(d)
 	var b bool
@@ -166,6 +154,20 @@ func DirIsEmpty(d string) (bool, error) {
 	return false, err
 }
 
+///////////
+// 	dir := "/path/to/dir"
+//
+// 	if !dirExist(dir) {
+// 		fmt.Println("Directory doesn't exist")
+// 	}
+// 	e, err := dirIsEmpty(dir)
+// 	checkError(err)
+// 	if !e {
+// 		fmt.Println("Directory insn't empty")
+// 	}
+// }
+//////////
+
 func Tcp4Client(proto string, ip string, data string) {
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", ip)
@@ -183,4 +185,16 @@ func Tcp4Client(proto string, ip string, data string) {
 	fmt.Println(string(result))
 
 	os.Exit(0)
+}
+
+func HttpServer() {
+	port := flag.String("p", "8100", "port to serve on")
+	directory := flag.String("d", ".", "the directory of static file to host")
+	flag.Parse()
+
+	http.Handle("/", http.FileServer(http.Dir(*directory)))
+
+	log.Printf("Serving %s on HTTP port: %s\n", *directory, *port)
+	fmt.Printf("URL : http://localhost:%s \nPress CTRL+C for interrupt...\n", *port)
+	log.Fatal(http.ListenAndServe(":"+*port, nil))
 }
