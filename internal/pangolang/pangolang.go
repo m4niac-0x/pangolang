@@ -14,6 +14,7 @@ import (
 	"path"
 	"time"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/k0kubun/go-ansi"
 	"github.com/schollz/progressbar/v3"
 )
@@ -197,4 +198,10 @@ func HttpServer() {
 	log.Printf("Serving %s on HTTP port: %s\n", *directory, *port)
 	fmt.Printf("URL : http://localhost:%s \nPress CTRL+C for interrupt...\n", *port)
 	log.Fatal(http.ListenAndServe(":"+*port, nil))
+}
+
+func Govalidator() {
+	str := "https://www.example.com"
+	validURL := govalidator.IsURL(str)
+	fmt.Printf("%s is a valid URL : %v \n", str, validURL)
 }
