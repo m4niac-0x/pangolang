@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"strings"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -205,3 +206,11 @@ func Govalidator() {
 	validURL := govalidator.IsURL(str)
 	fmt.Printf("%s is a valid URL : %v \n", str, validURL)
 }
+
+func ArrayToString(a []int, delim string) string {
+	return strings.Trim(strings.Replace(fmt.Sprint(a), " ", delim, -1), "[]")
+	//return strings.Trim(strings.Join(strings.Split(fmt.Sprint(a), " "), delim), "[]")
+	//return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(a)), delim), "[]")
+}
+
+// usage : fmt.Println(pangolang.ArrayToString(c, ""))
