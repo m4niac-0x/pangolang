@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -214,3 +215,13 @@ func ArrayToString(a []int, delim string) string {
 }
 
 // usage : fmt.Println(pangolang.ArrayToString(c, ""))
+
+func ListProcess() {
+	matches, _ := filepath.Glob("/proc/*/exe")
+	for _, file := range matches {
+		target, _ := os.Readlink(file)
+		if len(target) > 0 {
+			fmt.Printf("%+v\n", target)
+		}
+	}
+}
